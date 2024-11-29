@@ -4,6 +4,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import helmet from 'helmet';
 import { AppModule } from './app.module';
 import { AuthModule } from './auth/jwt-auth.module';
+import { CartModule } from './cart/cart.module';
 import { UserModule } from './user/user.module';
 
 function setupSwagger(app: INestApplication) {
@@ -15,7 +16,7 @@ function setupSwagger(app: INestApplication) {
     .build();
 
   const docs = SwaggerModule.createDocument(app, options, {
-    include: [AuthModule, UserModule],
+    include: [AuthModule, UserModule, CartModule],
     deepScanRoutes: true,
   });
 

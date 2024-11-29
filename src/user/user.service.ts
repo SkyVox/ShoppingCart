@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { v4 as uuidv4 } from 'uuid';
 import {
   TokenRequestDto,
   TokenRequestResponseDto,
@@ -12,7 +13,10 @@ export class UserService {
   public async generateUserToken(
     dto: TokenRequestDto,
   ): Promise<TokenRequestResponseDto> {
-    const accessToken = await this.jwtService.signAsync({ ...dto });
+    const accessToken = await this.jwtService.signAsync({
+      Id: uuidv4(),
+      ...dto,
+    });
     const responseData: TokenRequestResponseDto = {
       Token: accessToken,
       Name: dto.Name,
