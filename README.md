@@ -30,11 +30,12 @@ With the application running you can browse to http://localhost:3000/docs then c
 ## Endpoints (API)
 
 There are 5 endpoints available:
-POST http://localhost:3000/user/token
-dto: {
-"Name": "email@test.com",
-"Role": "COMMON" // Possible values: COMMON and VIP
-}
+
+    POST http://localhost:3000/user/token
+    dto: {
+        "Name": "email@test.com",
+        "Role": "COMMON" // Possible values: COMMON and VIP
+    }
 
     This endpoint generates a JWT token with the given information.
 
