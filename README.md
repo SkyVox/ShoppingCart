@@ -92,7 +92,7 @@ To run the tests you should execute the following command:
 
 # Architecture
 
-This project was made using `Node` and `NestJS` framework, using this combination is a good option for a fast and scalable APIs. This project also uses the Repository Pattern for the challenge purpose the Repository class has a mock 'storage', but in the future using this pattern is easier to switch to another database or connection.
+This project was made using `Node` and `NestJS` framework, using this combination is a good option for a fast and scalable APIs. This project also uses the `Repository Pattern`. Just for the challenge purpose the Repository class has a mock 'storage', but in the future using this pattern it's easy to switch to another database or connection.
 
 For the user logic, the API come with an endpoint that you can create COMMON or VIP user. In this endpoint it generates an JWT token that represents the user data, for each endpoint request, you should add this token to the header so the API knows wether this user is COMMON or VIP.
 
@@ -101,3 +101,8 @@ For the user logic, the API come with an endpoint that you can create COMMON or 
 ---
 
 # Extra
+
+Video Showcase:
+
+https://github.com/user-attachments/assets/fe54aaa5-4e8c-478d-aa56-b0d540ce58c0
+
