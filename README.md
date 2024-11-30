@@ -5,7 +5,7 @@
 1.  Node LTS (version 22.11.0)
 2.  yarn (version 1.22.22)
 
-## Running Project
+## Running the Project
 
 Before we execute this API we should install the dependencies, by that you should execute the command below on the project's folder:
 
@@ -96,7 +96,7 @@ This project was made using `Node` and `NestJS` framework, using this combinatio
 
 For the user logic, the API come with an endpoint that you can create COMMON or VIP user. In this endpoint it generates an JWT token that represents the user data, for each endpoint request, you should add this token to the header so the API knows wether this user is COMMON or VIP.
 
-![Generate JWT Token Diagram](https://photos.app.goo.gl/bJT4krqhMbLRmJN9A)
+![Generate JWT Token Diagram](https://github.com/user-attachments/assets/2bd2e01c-1ac8-4796-b578-519c5b06453c)
 
 ---
 
