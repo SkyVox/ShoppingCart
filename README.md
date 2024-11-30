@@ -17,7 +17,7 @@ _Exemple of `.env.example` file_
     PORT  =  3000
     JWT_SECRET_TOKEN  =  'super#secret'
 
-Change for the desired values and rename the file to `.env`.
+Change to the desired values and rename the file to `.env`.
 
 After that we can start the application, for that you can execute the command below:
 
@@ -76,6 +76,12 @@ There are 5 endpoints available:
     2- Rules:
     	- VIP always have the VIP Discount, the only exception is if promotion `Get 3 for the Price of 2` has a lower price.
     	- Get 3 for the Price of 2 Promotion is only available if there are 3 or more product on user's cart.
+     
+     The response follows the pattern below:
+     {
+         "cartTotalPrice": number; // Which is the price of all items that this user added on their cart, without any discounts.
+         "finalPrice": number; // This is the final price that this user should pay, this is the property that includes the rules above.
+     }
 
 ---
 
@@ -97,7 +103,7 @@ This project was made using `Node` and `NestJS` framework, using this combinatio
 
 For the user logic, the API come with an endpoint that you can create COMMON or VIP user. In this endpoint it generates an JWT token that represents the user data, for each endpoint request, you should add this token to the header so the API knows wether this user is COMMON or VIP.
 
-![Generate JWT Token Diagram](https://github.com/user-attachments/assets/2bd2e01c-1ac8-4796-b578-519c5b06453c)
+![Generate JWT Token Diagram](https://github.com/user-attachments/assets/79c14476-025f-4cb7-914e-b836e2e3a501)
 
 ---
 
