@@ -99,15 +99,30 @@ To run the tests you should execute the following command:
 
 # Architecture
 
-This project was made using `Node` and `NestJS` framework, using this combination is a good option for a fast and scalable APIs. This project also uses the `Repository Pattern`. Just for the challenge purpose the Repository class has a mock 'storage', but in the future using this pattern it's easy to switch to another database or connection.
+  This project was made using `Node` and `NestJS` framework, with this combination we can easily build and deploy fast and scalable APIs. It also follows the `Repository Pattern`. Just for the challenge purpose only the Repository class has a mock 'storage', but in the future using this pattern it's easy to switch to another database or connection.
+  
+  To increase the readability and maintainability the project follows the NestJS modules structure, each module has their own responsabilities inclusing [controller, services and module].
+  
+  The API comes with an endpoint that you can create COMMON or VIP user. This endpoint generates and returns a JWT token with all the user information. After that, for each request you should add this token into the `Authorization` header so the API can read all the user data including the user role so it can determine wether this user is COMMON or VIP.
 
-For the user logic, the API come with an endpoint that you can create COMMON or VIP user. In this endpoint it generates an JWT token that represents the user data, for each endpoint request, you should add this token to the header so the API knows wether this user is COMMON or VIP.
+  As an API, we handle multiple data inputs, so we need to ensure that only the desired properties and values are passed to the API. So some pipelines were configured to accept only the specified properties and values. For example: the endpoint `/user/token` accepts only two properties Name and Role, and the role property is a enum that will only accept: "COMMON" or "VIP". With this, we ensure that only the necessary values are sent to the API.
+
+
+##### Below we have the JWT token Diagram
 
 ![Generate JWT Token Diagram](https://github.com/user-attachments/assets/79c14476-025f-4cb7-914e-b836e2e3a501)
 
+#### List of Technologies that were used in this Project:
+
+1. Node Latest Version
+2. NestJS
+3. JWT (for the user authentication and role)
+4. Jest (for tests)
+5. helmet (for secutiry headers)
+
 ---
 
-# Extra
+# Extras
 
 Video Showcase:
 
