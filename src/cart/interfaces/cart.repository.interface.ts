@@ -8,6 +8,8 @@ export interface ICartRepository {
   insert(userId: string, product: Product): Promise<string>;
 
   delete(userId: string, productId: ProductId): Promise<boolean>;
+
+  clear(userId: string): Promise<void>;
 }
 
 export const ICartRepository = Symbol('ICartRepository');

@@ -54,12 +54,18 @@ export class CartController {
   }
 
   @Delete('remove')
-  @ApiResponse({ status: HttpStatus.CREATED, type: String })
+  @ApiResponse({ status: HttpStatus.OK, type: String })
   async deleteProduct(
     @User() user: UserPayload,
     @Body() dto: DeleteProductDto,
   ): Promise<string> {
     return this.cartService.deleteProduct(user, dto);
+  }
+
+  @Delete('clear')
+  @ApiResponse({ status: HttpStatus.OK, type: String })
+  async clearCart(@User() user: UserPayload): Promise<string> {
+    return this.cartService.clearCart(user);
   }
 
   @Get('calculate-price')
