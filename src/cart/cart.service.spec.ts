@@ -189,6 +189,37 @@ describe('Cart Service', () => {
     });
   });
 
+  describe('clearCart', () => {
+    it(`should throw an error if user's cart has not been created yet`, async () => {
+      try {
+        await cartService.clearCart(vip_user);
+      } catch (error) {
+        expect(error).toBeInstanceOf(BadRequestException);
+        expect(error.getStatus()).toEqual(400);
+        expect(error.getResponse()).toEqual({
+          message: 'Cart could not be found! Try adding some products.',
+          error: 'Bad Request',
+          statusCode: 400,
+        });
+      }
+    });
+
+    it(`should successfully clear user's cart`, async () => {
+      const dto: InsertProductDto = {
+        ProductId: 'T_SHIRT',
+        Name: 'Blue T-Shirt',
+      };
+
+      await cartService.insertProduct(vip_user, dto);
+
+      const cart = await cartService.findUserProducts(vip_user);
+      const clearCartResponse = await cartService.clearCart(vip_user);
+
+      expect(clearCartResponse).toBe('Cart cleared successfully.');
+      expect(cart.products.length).toBe(0);
+    });
+  });
+
   describe('calculatePrice', () => {
     it(`should return 0 if user is either COMMON or VIP and their card is empty`, async () => {
       await cartService.insertProduct(common_user, {

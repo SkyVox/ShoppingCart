@@ -25,7 +25,6 @@ export class CartRepository implements ICartRepository {
     products.push(product);
 
     this.carts[userId] = cart;
-
     return cart.cartId;
   }
 
@@ -46,6 +45,17 @@ export class CartRepository implements ICartRepository {
     this.carts[userId] = cart;
 
     return found;
+  }
+
+  public async clear(userId: string): Promise<void> {
+    const cart = this.carts[userId];
+
+    if (!cart) {
+      throw new Error('Cart could not be found! Try adding some products.');
+    }
+
+    cart.products = [];
+    this.carts[userId] = cart;
   }
 
   private _newCart(userId: string): Cart {

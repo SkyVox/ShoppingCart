@@ -80,6 +80,15 @@ export class CartService {
     }
   }
 
+  public async clearCart(user: UserPayload): Promise<string> {
+    try {
+      await this.cartRepository.clear(user.Id);
+      return `Cart cleared successfully.`;
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
   public async calculatePrice(
     user: UserPayload,
   ): Promise<CalculatePriceResponseDto> {
