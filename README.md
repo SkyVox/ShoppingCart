@@ -86,7 +86,7 @@ There are 5 endpoints available:
 ---
 
 I also have created a collection on Postman, you can import by using the file below:
-[Shopping Cart Postman Collection](https://drive.google.com/file/d/1SIg5RC8IBYdwLiCGnam2eTN7NL54LDo6/view?usp=sharing)
+[Shopping Cart Postman Collection](https://drive.google.com/file/d/1oYLJdX9Uo0rcfo-DvvCBxJrjPqYSSdBc/view?usp=sharing)
 
 ## Running Test
 
