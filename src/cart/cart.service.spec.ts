@@ -86,38 +86,48 @@ describe('Cart Service', () => {
       expect(message).toBe(mock_uuid);
     });
 
-    it(`should add 3 product into user's cart`, async () => {
+    it(`should add 3 different products into user's cart`, async () => {
       const insertProduct = jest.spyOn(cartService, 'insertProduct');
 
-      // Adding first t-shirt product.
-      const first: InsertProductDto = {
+      // Adding first product: `t-shirt`.
+      const firstProductDto: InsertProductDto = {
         ProductId: 'T_SHIRT',
         Name: 'Blue T-Shirt',
       };
-      const firstMessage = await cartService.insertProduct(common_user, first);
-      expect(firstMessage).toBe(mock_uuid);
+      const firstProductMessage = await cartService.insertProduct(
+        common_user,
+        firstProductDto,
+      );
+      expect(firstProductMessage).toBe(mock_uuid);
 
-      // Adding second jeans product.
-      const seconds: InsertProductDto = {
+      // Adding second product: `jeans`.
+      const secondProductDto: InsertProductDto = {
         ProductId: 'JEANS',
         Name: 'Blue Jeans',
       };
-      const secondMessage = await cartService.insertProduct(
+      const secondProductMessage = await cartService.insertProduct(
         common_user,
-        seconds,
+        secondProductDto,
       );
-      expect(secondMessage).toBe(mock_uuid);
+      expect(secondProductMessage).toBe(mock_uuid);
 
-      // Adding third dress product.
-      const third: InsertProductDto = {
+      // Adding third product: `dress`.
+      const thirdProduct: InsertProductDto = {
         ProductId: 'DRESS',
         Name: 'White Dress',
       };
-      const thirdMessage = await cartService.insertProduct(common_user, third);
-      expect(thirdMessage).toBe(mock_uuid);
+      const thirdProductMessage = await cartService.insertProduct(
+        common_user,
+        thirdProduct,
+      );
+      expect(thirdProductMessage).toBe(mock_uuid);
 
       const cart = await cartService.findUserProducts(common_user);
-      expect(cart.products.length).toBe(3);
+      const products = cart.products;
+      const uniqueProducts = new Set(products.map((product) => product.id));
+
+      expect(products.length).toBe(3);
+      expect(uniqueProducts.size).toBe(3);
       expect(insertProduct).toHaveBeenCalledTimes(3);
     });
   });
@@ -179,7 +189,7 @@ describe('Cart Service', () => {
     });
   });
 
-  describe('calculatePriceWithDiscount', () => {
+  describe('calculatePrice', () => {
     it(`should return 0 if user is either COMMON or VIP and their card is empty`, async () => {
       await cartService.insertProduct(common_user, {
         ProductId: 'T_SHIRT',
@@ -221,6 +231,29 @@ describe('Cart Service', () => {
       expect(cartPrice.finalPrice).toBe(99.23);
     });
 
+    it(`should use the VIP 15% of discount if there are 4 T-Shirt, 1 Jeans and 1 Dress on user's cart`, async () => {
+      for (let i = 0; i < 4; i++) {
+        await cartService.insertProduct(vip_user, {
+          ProductId: 'T_SHIRT',
+          Name: 'Blue T-Shirt',
+        });
+      }
+
+      await cartService.insertProduct(vip_user, {
+        ProductId: 'JEANS',
+        Name: 'Blue Jeans',
+      });
+
+      await cartService.insertProduct(vip_user, {
+        ProductId: 'DRESS',
+        Name: 'White Dress',
+      });
+
+      const cartPrice = await cartService.calculatePrice(vip_user);
+      expect(cartPrice.finalPrice).not.toBe(254.22); // Should not use the `Get 3 for the price of 2` promotion.
+      expect(cartPrice.finalPrice).toBe(246.68);
+    });
+
     it(`should return the sum of the products if user is COMMON and there are only 2 products on user's cart`, async () => {
       await cartService.insertProduct(common_user, {
         ProductId: 'T_SHIRT',
@@ -239,7 +272,7 @@ describe('Cart Service', () => {
       expect(cartPrice.finalPrice).toBe(sum);
     });
 
-    it(`should throw an error if user's cart is empty`, async () => {
+    it(`should throw an error if user's cart has not been created yet`, async () => {
       try {
         await cartService.calculatePrice(common_user);
       } catch (error) {
