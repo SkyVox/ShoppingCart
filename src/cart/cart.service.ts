@@ -21,13 +21,17 @@ export class CartService {
   ) {}
 
   public async findUserProducts(user: UserPayload): Promise<Cart> {
-    const cart = await this.cartRepository.find(user.Id);
+    try {
+      const cart = await this.cartRepository.find(user.Id);
 
-    if (!cart) {
-      throw new BadRequestException('Cart not found! Try add some products.');
+      if (!cart) {
+        throw new BadRequestException('Cart not found! Try add some products.');
+      }
+
+      return cart;
+    } catch (error) {
+      throw new BadRequestException(error.message);
     }
-
-    return cart;
   }
 
   public async insertProduct(
@@ -40,15 +44,19 @@ export class CartService {
       price: Products[dto.ProductId],
     };
 
-    const insert = await this.cartRepository.insert(user.Id, product);
+    try {
+      const insert = await this.cartRepository.insert(user.Id, product);
 
-    if (!insert) {
-      throw new BadRequestException(
-        'An error has occurred while trying to insert the product.',
-      );
+      if (!insert) {
+        throw new BadRequestException(
+          'An error has occurred while trying to insert the product.',
+        );
+      }
+
+      return insert;
+    } catch (error) {
+      throw new BadRequestException(error.message);
     }
-
-    return insert;
   }
 
   public async deleteProduct(
@@ -57,15 +65,19 @@ export class CartService {
   ): Promise<string> {
     await this.findUserProducts(user);
 
-    const deleted = await this.cartRepository.delete(user.Id, dto.ProductId);
+    try {
+      const deleted = await this.cartRepository.delete(user.Id, dto.ProductId);
 
-    if (!deleted) {
-      throw new BadRequestException(
-        'No product were found to be removed from the cart.',
-      );
+      if (!deleted) {
+        throw new BadRequestException(
+          'No product were found to be removed from the cart.',
+        );
+      }
+
+      return `1x ${dto.ProductId} removed successfully.`;
+    } catch (error) {
+      throw new BadRequestException(error.message);
     }
-
-    return `1x ${dto.ProductId} removed successfully.`;
   }
 
   public async calculatePrice(

@@ -7,9 +7,16 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
+import {
+  ApiBadRequestResponse,
+  ApiBearerAuth,
+  ApiResponse,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { User } from '../decorators/user.decorator';
+import { BadRequestSchema } from '../infra/exception-schemas/bad-request.schema';
+import { UnauthorizedSchema } from '../infra/exception-schemas/unauthorized.schema';
 import { UserPayload } from '../user/interfaces/user.interface';
 import { CartService } from './cart.service';
 import { CalculatePriceResponseDto } from './dto/calculate-price.dto';
@@ -18,6 +25,14 @@ import { InsertProductDto } from './dto/insert-product.dto';
 import { Cart } from './entities/cart.entity';
 
 @ApiBearerAuth()
+@ApiBadRequestResponse({
+  description: 'Bad Request',
+  type: BadRequestSchema,
+})
+@ApiUnauthorizedResponse({
+  description: 'JWT token is missing or invalid',
+  type: UnauthorizedSchema,
+})
 @UseGuards(JwtAuthGuard)
 @Controller('cart')
 export class CartController {
